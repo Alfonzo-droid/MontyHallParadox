@@ -1,0 +1,42 @@
+import random
+
+def monty_hall_simulation(num_simulations):
+  """Simulates the Monty Hall problem multiple times.
+
+  Args:
+    num_simulations: The number of simulations to run.
+
+  Returns:
+    The number of times switching doors leads to winning.
+  """
+
+  wins_by_switching = 0
+  for _ in range(num_simulations):
+    # Initialize doors: 0 (car), 1, 2 (goats)
+    doors = [0, 1, 2]
+    
+    # Contestant's initial choice
+    initial_choice = random.choice(doors)
+
+    # Host opens a door with a goat
+    goat_door = random.choice(doors)
+    while goat_door == initial_choice or doors[goat_door] == 0:
+      goat_door = random.choice(doors)
+    
+    # Contestant switches doors
+    remaining_doors = [door for door in doors if door != initial_choice and door != goat_door]
+    final_choice = remaining_doors[0]
+
+    # Check if the final choice is the car
+    if doors[final_choice] == 0:
+      wins_by_switching += 1
+
+  return wins_by_switching
+
+# Set the number of simulations
+num_simulations = 1000000
+
+# Run the simulation and print the results
+wins = monty_hall_simulation(num_simulations)
+win_probability = wins / num_simulations
+print(f"Probability of winning by switching doors: {win_probability:.3f}")
